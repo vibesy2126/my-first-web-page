@@ -3,71 +3,355 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vibesy | Web & App Builder</title>
+  <title>Vibesy — Full-Stack Web & App Builder</title>
   <style>
+    :root {
+      --bg: #080c14;
+      --surface: #101726;
+      --surface-hover: #162033;
+      --border: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --green: #34d399;
+    }
+
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 1.5rem;
-      background: #090d16;
-      color: #f1f5f9;
+      background: var(--bg);
+      color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
     }
-    .card {
+
+    .container {
       width: 100%;
-      max-width: 520px;
-      padding: 2rem;
-      border-radius: 20px;
-      background: #111827;
-      border: 1px solid #1f2937;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
     }
-    .badge {
-      display: inline-block;
-      font-size: 0.75rem;
-      padding: 0.3rem 0.7rem;
+
+    /* Navigation */
+    header {
+      border-bottom: 1px solid var(--border);
+      background: rgba(8, 12, 20, 0.85);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 64px;
+    }
+
+    .brand {
+      font-weight: 700;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+    }
+
+    .brand span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    /* Hero */
+    .hero {
+      padding: 4.5rem 0 3.5rem;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.8rem;
+      padding: 0.35rem 0.85rem;
       border-radius: 999px;
-      background: rgba(56, 189, 248, 0.14);
-      color: #38bdf8;
+      background: rgba(52, 211, 153, 0.12);
+      color: var(--green);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.1rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      max-width: 720px;
       margin-bottom: 1rem;
     }
-    h1 { font-size: 1.75rem; margin-bottom: 0.6rem; }
-    p { color: #94a3b8; line-height: 1.6; margin-bottom: 1.5rem; }
-    button {
-      background: #38bdf8;
-      color: #090d16;
-      border: none;
-      padding: 0.75rem 1.25rem;
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin-bottom: 1.75rem;
+    }
+
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .btn-primary, .btn-secondary {
+      padding: 0.75rem 1.3rem;
       border-radius: 10px;
       font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #080c14;
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    /* Sections */
+    section { padding: 2.75rem 0; }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    /* Filter Pills */
+    .filters {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: var(--surface);
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.4rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.82rem;
       cursor: pointer;
     }
-    #status {
-      margin-top: 1rem;
-      font-size: 0.9rem;
-      color: #34d399;
-      min-height: 1.2rem;
+
+    .filter-btn.active {
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+
+    /* Grid Cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .card:hover {
+      background: var(--surface-hover);
+      transform: translateY(-2px);
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    /* Stack Pills */
+    .stack-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .stack-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.9rem;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      color: #cbd5e1;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      margin-top: 2rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
   </style>
 </head>
 <body>
-  <main class="card">
-    <span class="badge">Week 1 • Build Log</span>
-    <h1>Building Remote-Ready Web Apps</h1>
-    <p>Starting from scratch on iPad Pro M4, shipping clean code to GitHub, and building real skills step by step.</p>
-    <button id="pingBtn" type="button">Test Interactivity</button>
-    <div id="status"></div>
+  <header>
+    <div class="container nav">
+      <div class="brand">Vibesy<span>.dev</span></div>
+      <nav class="nav-links">
+        <a href="#focus">Focus</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="#stack">Stack</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="status-pill">● Week 1 • Shipping Live Builds</div>
+      <h1>Building fast, practical web apps for remote-first teams.</h1>
+      <p>
+        I’m Vibesy—a Computer Science graduate focused on full-stack web and app development. 
+        Shipping clean interfaces, reliable logic, and real-world tools from scratch.
+      </p>
+      <div class="cta-group">
+        <a href="#roadmap" class="btn-primary">View 30-Day Build Sprint</a>
+        <a href="https://github.com/vibesy2126" target="_blank" rel="noreferrer" class="btn-secondary">GitHub Profile ↗</a>
+      </div>
+    </section>
+
+    <section id="focus">
+      <div class="section-header">
+        <h2>Core Capabilities</h2>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <span class="tag">01 • Frontend</span>
+          <h3>Responsive Web Interfaces</h3>
+          <p>Clean, mobile-first layouts built with semantic HTML, modern CSS Grid/Flexbox, and React.</p>
+        </article>
+        <article class="card">
+          <span class="tag">02 • Backend</span>
+          <h3>APIs & Databases</h3>
+          <p>Structured data workflows, authentication, and server logic using Node.js, TypeScript, and PostgreSQL.</p>
+        </article>
+        <article class="card">
+          <span class="tag">03 • Deployment</span>
+          <h3>Git & Cloud Shipping</h3>
+          <p>Version-controlled repositories on GitHub with automated continuous deployment on Vercel.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <div class="section-header">
+        <h2>30-Day Build Log</h2>
+        <div class="filters">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="live">Live</button>
+          <button class="filter-btn" data-filter="next">Up Next</button>
+        </div>
+      </div>
+      <div class="grid" id="projectGrid">
+        <article class="card" data-status="live">
+          <span class="tag">Week 1 • Live</span>
+          <h3>Vibesy Portfolio v1</h3>
+          <p>Responsive dark-mode builder page deployed via GitHub and Vercel CI/CD.</p>
+        </article>
+        <article class="card" data-status="next">
+          <span class="tag">Week 2 • Up Next</span>
+          <h3>Multi-Currency & Budget Tracker</h3>
+          <p>Interactive JavaScript tool with real-time calculations and persistent local storage.</p>
+        </article>
+        <article class="card" data-status="next">
+          <span class="tag">Week 3–4 • Up Next</span>
+          <h3>Full-Stack SaaS Dashboard</h3>
+          <p>Next.js + PostgreSQL web app with user sign-in and live cloud database records.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="stack">
+      <div class="section-header">
+        <h2>Target Stack</h2>
+      </div>
+      <div class="stack-list">
+        <span class="stack-item">HTML5 & CSS3</span>
+        <span class="stack-item">JavaScript (ES6+)</span>
+        <span class="stack-item">TypeScript</span>
+        <span class="stack-item">React & Next.js</span>
+        <span class="stack-item">Tailwind CSS</span>
+        <span class="stack-item">Node.js</span>
+        <span class="stack-item">PostgreSQL / Supabase</span>
+        <span class="stack-item">Git & Vercel</span>
+      </div>
+    </section>
   </main>
 
-  <script>
-    const btn = document.getElementById("pingBtn");
-    const status = document.getElementById("status");
-    let clicks = 0;
+  <footer class="container">
+    <span>© 2026 Vibesy. Built & shipped consistently.</span>
+    <span>github.com/vibesy2126</span>
+  </footer>
 
-    btn.addEventListener("click", () => {
-      clicks += 1;
-      status.textContent = `Live script active — click count: ${clicks}`;
+  <script>
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    const projectCards = document.querySelectorAll("#projectGrid .card");
+
+    filterButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const filter = btn.dataset.filter;
+        projectCards.forEach((card) => {
+          const matches = filter === "all" || card.dataset.status === filter;
+          card.style.display = matches ? "block" : "none";
+        });
+      });
     });
   </script>
 </body>
